@@ -46,34 +46,36 @@ class _MainScreenState extends State<MainScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // backgroundColor: Color.fromARGB(255, 19, 66, 123),
-      appBar: AppBar(
-        title: const Text(''),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Column(
-              children: [
-                const MainImage(),
-                const SizedBox(
-                  height: 15,
-                ),
-                AnimatedTextKit(animatedTexts: [
-                  TyperAnimatedText("MyAnimeList", textStyle: headstyle),
-                ])
-              ],
-            ),
-            const NavigatorButton(
-                text: "Log-in", navigatorNamed: SignInScreen.id),
-            const NavigatorButton(
-                text: "Sig-up", navigatorNamed: RegistryScreen.id),
-            const NavigatorButton(
-                text: "Entry without log-in", navigatorNamed: AnimeApp.id),
-          ],
+    return SafeArea(
+      child: Scaffold(
+        // backgroundColor: Color.fromARGB(255, 19, 66, 123),
+        appBar: AppBar(
+          title: const Text(''),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Column(
+                children: [
+                  const MainImage(),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  AnimatedTextKit(animatedTexts: [
+                    TyperAnimatedText("MyAnimeList", textStyle: headstyle),
+                  ])
+                ],
+              ),
+              const NavigatorButton(
+                  text: "Log-in", navigatorNamed: SignInScreen.id),
+              const NavigatorButton(
+                  text: "Sig-up", navigatorNamed: RegistryScreen.id),
+              const NavigatorButton(
+                  text: "Entry without log-in", navigatorNamed: AnimeApp.id),
+            ],
+          ),
         ),
       ),
     );

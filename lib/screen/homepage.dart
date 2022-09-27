@@ -43,63 +43,65 @@ class _AnimeAppState extends State<AnimeApp> {
     return MaterialApp(
       title: 'Anime app',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.blue[200],
-        appBar: AppBar(title: const Text('Anime app')),
-        body: Center(
-          child: FutureBuilder(
-            builder: (context, AsyncSnapshot<List<Show>> snapshot) {
-              if (snapshot.hasData) {
-                return Center(
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(8),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Row(
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Container(
-                                  margin: const EdgeInsets.only(
-                                      right: 50, bottom: 20),
-                                  child: Image(
-                                      image: NetworkImage(
-                                          '${snapshot.data?[index].imageUrl}')),
+      home: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.blue[200],
+          appBar: AppBar(title: const Text('Anime app')),
+          body: Center(
+            child: FutureBuilder(
+              builder: (context, AsyncSnapshot<List<Show>> snapshot) {
+                if (snapshot.hasData) {
+                  return Center(
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                TextButton(
+                                  onPressed: () {},
+                                  child: Container(
+                                    margin: const EdgeInsets.only(
+                                        right: 50, bottom: 20),
+                                    child: Image(
+                                        image: NetworkImage(
+                                            '${snapshot.data?[index].imageUrl}')),
+                                  ),
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Text(
-                                    '${snapshot.data?[index].title}',
-                                    style: Titlestyle,
-                                  ),
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  Text(
-                                    'Score: ${snapshot.data?[index].score}',
-                                    style: Titlestyle,
-                                  )
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) =>
-                        const Divider(),
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return const Center(child: Text('Something went wrong :('));
-              }
+                                Column(
+                                  children: [
+                                    Text(
+                                      '${snapshot.data?[index].title}',
+                                      style: Titlestyle,
+                                    ),
+                                    const SizedBox(
+                                      height: 25,
+                                    ),
+                                    Text(
+                                      'Score: ${snapshot.data?[index].score}',
+                                      style: Titlestyle,
+                                    )
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                      separatorBuilder: (BuildContext context, int index) =>
+                          const Divider(),
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return const Center(child: Text('Something went wrong :('));
+                }
 
-              return const CircularProgressIndicator();
-            },
-            future: shows,
+                return const CircularProgressIndicator();
+              },
+              future: shows,
+            ),
           ),
         ),
       ),

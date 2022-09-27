@@ -34,79 +34,81 @@ class _RegistryScreenState extends State<RegistryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('RegistryScreen')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                      margin: const EdgeInsets.only(right: 20),
-                      child: const MainImage()),
-                  const Text('Create a new account', style: headstyle),
-                ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('RegistryScreen')),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        margin: const EdgeInsets.only(right: 20),
+                        child: const MainImage()),
+                    const Text('Create a new account', style: headstyle),
+                  ],
+                ),
               ),
             ),
-          ),
-          // UserImagePicker(
-          //   callback: _pickedImageFile,
-          // ),
-          MyTextInput(
-            hintText: 'Enter your username',
-            onChanged: (value) {
-              username = value;
-            },
-          ),
-          MyTextInput(
-            hintText: 'Enter your email',
-            onChanged: (value) {
-              email = value;
-            },
-          ),
-          MyTextInput(
-            hintText: 'Enter your password',
-            onChanged: (value) {
-              password = value;
-            },
-          ),
-          MyButton(
-            text: 'Next',
-            onPressed: () async {
-              try {
-                UserCredential userCredential =
-                    await _auth.createUserWithEmailAndPassword(
-                        email: email, password: password);
-                if (userCredential.user != null) {
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(email)
-                      .set({
-                    'username': username,
-                    'uid': userCredential.user!.uid,
-                  });
-                  if (!mounted) return;
-                  Navigator.pushNamed(context, SignInScreen.id);
-                }
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'weak-password') {
-                  log('The password provider is to weak.');
-                } else if (e.code == 'email-already-in-use') {
-                  log('The account already exists for that email.');
-                } else {
+            // UserImagePicker(
+            //   callback: _pickedImageFile,
+            // ),
+            MyTextInput(
+              hintText: 'Enter your username',
+              onChanged: (value) {
+                username = value;
+              },
+            ),
+            MyTextInput(
+              hintText: 'Enter your email',
+              onChanged: (value) {
+                email = value;
+              },
+            ),
+            MyTextInput(
+              hintText: 'Enter your password',
+              onChanged: (value) {
+                password = value;
+              },
+            ),
+            MyButton(
+              text: 'Next',
+              onPressed: () async {
+                try {
+                  UserCredential userCredential =
+                      await _auth.createUserWithEmailAndPassword(
+                          email: email, password: password);
+                  if (userCredential.user != null) {
+                    await FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(email)
+                        .set({
+                      'username': username,
+                      'uid': userCredential.user!.uid,
+                    });
+                    if (!mounted) return;
+                    Navigator.pushNamed(context, SignInScreen.id);
+                  }
+                } on FirebaseAuthException catch (e) {
+                  if (e.code == 'weak-password') {
+                    log('The password provider is to weak.');
+                  } else if (e.code == 'email-already-in-use') {
+                    log('The account already exists for that email.');
+                  } else {
+                    log(e.toString());
+                  }
+                } catch (e) {
                   log(e.toString());
                 }
-              } catch (e) {
-                log(e.toString());
-              }
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

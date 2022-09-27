@@ -28,74 +28,77 @@ class _SignInScreenState extends State<SignInScreen> {
   InputWithErrorText _password = InputWithErrorText();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('SignInScreen')),
-      body: ProgressHUD(
-        child: Builder(
-          builder: (BuildContext context) => Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const MainImage(),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    AnimatedTextKit(animatedTexts: [
-                      TyperAnimatedText('Sign-in', textStyle: headstyle),
-                    ]),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(title: const Text('SignInScreen')),
+        body: ProgressHUD(
+          child: Builder(
+            builder: (BuildContext context) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const MainImage(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      AnimatedTextKit(animatedTexts: [
+                        TyperAnimatedText('Sign-in', textStyle: headstyle),
+                      ]),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              MyTextInputWithErrorText(
-                input: _email,
-                hintText: 'Enter your email',
-                obscureText: false,
-                textInputType: TextInputType.emailAddress,
-              ),
-              MyTextInputWithErrorText(
-                input: _password,
-                hintText: 'Enter your password',
-                obscureText: true,
-                textInputType: TextInputType.text,
-              ),
-              MyButton(
-                text: 'Next',
-                onPressed: () async {
-                  final progress = ProgressHUD.of(context);
-                  progress?.showWithText('Loading...');
-                  try {
-                    await FirebaseAuth.instance.signInWithEmailAndPassword(
-                        email: _email.valueText, password: _password.valueText);
-                    if (!mounted) return;
-                    Navigator.pushNamed(context, AnimeApp.id);
-                  } on FirebaseAuthException catch (e) {
-                    if (e.code == 'user-not-found') {
-                      //log('No user found for that email.');
-                      _email.errorText = 'No user found for that email.';
-                    } else if (e.code == 'wrong-password') {
-                      //log('Wrong password provided for that user.');
-                      _password.errorText =
-                          'Wrong password provided for that user.';
-                    } else {
-                      //log(e.toString());
-                      _email.errorText = e.toString();
+                const SizedBox(
+                  height: 20.0,
+                ),
+                MyTextInputWithErrorText(
+                  input: _email,
+                  hintText: 'Enter your email',
+                  obscureText: false,
+                  textInputType: TextInputType.emailAddress,
+                ),
+                MyTextInputWithErrorText(
+                  input: _password,
+                  hintText: 'Enter your password',
+                  obscureText: true,
+                  textInputType: TextInputType.text,
+                ),
+                MyButton(
+                  text: 'Next',
+                  onPressed: () async {
+                    final progress = ProgressHUD.of(context);
+                    progress?.showWithText('Loading...');
+                    try {
+                      await FirebaseAuth.instance.signInWithEmailAndPassword(
+                          email: _email.valueText,
+                          password: _password.valueText);
+                      if (!mounted) return;
+                      Navigator.pushNamed(context, AnimeApp.id);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        //log('No user found for that email.');
+                        _email.errorText = 'No user found for that email.';
+                      } else if (e.code == 'wrong-password') {
+                        //log('Wrong password provided for that user.');
+                        _password.errorText =
+                            'Wrong password provided for that user.';
+                      } else {
+                        //log(e.toString());
+                        _email.errorText = e.toString();
+                      }
+                    } catch (e) {
+                      log(e.toString());
                     }
-                  } catch (e) {
-                    log(e.toString());
-                  }
-                  setState(() {});
-                  progress?.dismiss();
-                },
-              )
-            ],
+                    setState(() {});
+                    progress?.dismiss();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
