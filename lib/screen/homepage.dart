@@ -44,7 +44,7 @@ class _AnimeAppState extends State<AnimeApp> {
       title: 'Anime app',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Colors.blue[300],
+        backgroundColor: Colors.blue[200],
         appBar: AppBar(title: const Text('Anime app')),
         body: Center(
           child: FutureBuilder(
@@ -59,12 +59,15 @@ class _AnimeAppState extends State<AnimeApp> {
                         children: [
                           Row(
                             children: [
-                              Container(
-                                margin: const EdgeInsets.only(
-                                    right: 50, bottom: 20),
-                                child: Image(
-                                    image: NetworkImage(
-                                        '${snapshot.data?[index].imageUrl}')),
+                              TextButton(
+                                onPressed: () {},
+                                child: Container(
+                                  margin: const EdgeInsets.only(
+                                      right: 50, bottom: 20),
+                                  child: Image(
+                                      image: NetworkImage(
+                                          '${snapshot.data?[index].imageUrl}')),
+                                ),
                               ),
                               Column(
                                 children: [
