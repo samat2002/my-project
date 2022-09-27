@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 
 class NavigatorButton extends StatelessWidget {
@@ -9,6 +10,8 @@ class NavigatorButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final assetsAudioPlayer = AssetsAudioPlayer();
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
       child: TextButton(
@@ -19,6 +22,9 @@ class NavigatorButton extends StatelessWidget {
           foregroundColor: MaterialStateProperty.all(Colors.white),
         ),
         onPressed: () {
+          assetsAudioPlayer.open(
+            Audio("assets/audios/Mouse Click.mp3"),
+          );
           // ignore: use_build_context_synchronously
           Navigator.pushNamed(context, navigatorNamed);
         },
