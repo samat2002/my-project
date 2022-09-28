@@ -30,6 +30,7 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.blue[100],
         appBar: AppBar(title: const Text('SignInScreen')),
         body: ProgressHUD(
           child: Builder(

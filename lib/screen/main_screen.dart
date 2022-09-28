@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // backgroundColor: Color.fromARGB(255, 19, 66, 123),
+        backgroundColor: Colors.blue[100],
         appBar: AppBar(
           title: const Text(''),
         ),

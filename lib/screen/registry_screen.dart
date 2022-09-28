@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -23,19 +21,16 @@ class RegistryScreen extends StatefulWidget {
 }
 
 class _RegistryScreenState extends State<RegistryScreen> {
-  late File _avatar;
   final _auth = FirebaseAuth.instance;
   late String email;
   late String password;
   late String username;
-  void _pickedImageFile({required File pickedImageFile}) {
-    _avatar = pickedImageFile;
-  }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.blue[100],
         appBar: AppBar(title: const Text('RegistryScreen')),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -54,15 +49,6 @@ class _RegistryScreenState extends State<RegistryScreen> {
                   ],
                 ),
               ),
-            ),
-            // UserImagePicker(
-            //   callback: _pickedImageFile,
-            // ),
-            MyTextInput(
-              hintText: 'Enter your username',
-              onChanged: (value) {
-                username = value;
-              },
             ),
             MyTextInput(
               hintText: 'Enter your email',
@@ -84,13 +70,6 @@ class _RegistryScreenState extends State<RegistryScreen> {
                       await _auth.createUserWithEmailAndPassword(
                           email: email, password: password);
                   if (userCredential.user != null) {
-                    await FirebaseFirestore.instance
-                        .collection('users')
-                        .doc(email)
-                        .set({
-                      'username': username,
-                      'uid': userCredential.user!.uid,
-                    });
                     if (!mounted) return;
                     Navigator.pushNamed(context, SignInScreen.id);
                   }
